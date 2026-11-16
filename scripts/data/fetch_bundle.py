@@ -19,7 +19,7 @@ from pathlib import Path
 import zstandard
 from common import BUILD, BUNDLE_DIR, read_version
 
-RELEASE_URL = "https://github.com/0xdolan/zimankit/releases/download/v{version}/{name}"
+RELEASE_URL = "https://github.com/kanilabs/zimankit/releases/download/v{version}/{name}"
 # The largest size a bundle may unpack to, so a damaged or hostile file cannot fill the disk.
 MAX_UNPACKED_BYTES = 512 * 1024 * 1024
 

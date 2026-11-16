@@ -74,7 +74,7 @@ function courseSidebar(course: "ckb" | "kmr", key: MessageKey) {
 }
 
 export default defineConfig({
-  site: "https://0xdolan.github.io",
+  site: "https://kanilabs.github.io",
   base: BASE,
   trailingSlash: "always",
   integrations: [
@@ -88,7 +88,7 @@ export default defineConfig({
         ckb: { label: "کوردی سۆرانی", lang: "ckb", dir: "rtl" },
         kmr: { label: "Kurmancî", lang: "kmr" },
       },
-      social: [{ icon: "github", label: "GitHub", href: "https://github.com/0xdolan/Zimanyar" }],
+      social: [{ icon: "github", label: "GitHub", href: "https://github.com/kanilabs/Zimanyar" }],
       customCss: ["./src/styles/site.css"],
       routeMiddleware: "./src/route-data.ts",
       components: { Header: "./src/components/Header.astro", PageTitle: "./src/components/PageTitle.astro" },

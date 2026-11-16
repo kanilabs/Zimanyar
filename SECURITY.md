@@ -4,7 +4,7 @@ Zimanyar checks text on your device. The extension, the desktop app and the comm
 
 ## Reporting a vulnerability
 
-Report it privately through [GitHub Security Advisories](https://github.com/0xdolan/Zimanyar/security/advisories/new). Do not open a public issue.
+Report it privately through [GitHub Security Advisories](https://github.com/kanilabs/Zimanyar/security/advisories/new). Do not open a public issue.
 
 Please include the affected surface (website, extension and browser, desktop app, CLI, language server), the version, and steps or a proof of concept.
 

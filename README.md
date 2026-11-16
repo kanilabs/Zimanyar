@@ -10,10 +10,10 @@
 [![Status: in development](https://img.shields.io/badge/status-in%20development-febd11)](#status)
 [![Sorani and Kurmanji](https://img.shields.io/badge/languages-Sorani%20%C2%B7%20Kurmanji-1d4a2e)](#what-it-checks)
 [![Offline](https://img.shields.io/badge/checking-100%25%20offline-1d4a2e)](#private-by-design)
-[![Built on zimankit](https://img.shields.io/badge/built%20on-zimankit-4a86cf)](https://github.com/0xdolan/zimankit)
+[![Built on zimankit](https://img.shields.io/badge/built%20on-zimankit-4a86cf)](https://github.com/kanilabs/zimankit)
 [![License: GPL-3.0-or-later](https://img.shields.io/badge/license-GPL--3.0--or--later-blue)](LICENSE)
 
-[What it checks](#what-it-checks) · [Surfaces](#where-it-runs) · [How it works](#how-it-works) · [The name and the logo](docs/STORY.md) · [Brand](assets/brand/README.md) · [zimankit](https://github.com/0xdolan/zimankit)
+[What it checks](#what-it-checks) · [Surfaces](#where-it-runs) · [How it works](#how-it-works) · [The name and the logo](docs/STORY.md) · [Brand](assets/brand/README.md) · [zimankit](https://github.com/kanilabs/zimankit)
 
 <img src="assets/marketing/banner.png" alt="Zimanyar: write Kurdish with confidence" width="100%">
 </div>
@@ -24,7 +24,7 @@ The name joins *ziman*, language, and *yar*, friend and helper; the logo joins t
 
 ## Status
 
-Zimanyar **1.0.0** is out. The browser extension, the Linux desktop app, the command line and the language server are on the [releases page](https://github.com/0xdolan/Zimanyar/releases), with checksums, a signature and build provenance for every file (see [RELEASING.md](RELEASING.md)); the Chrome Web Store and Firefox Add-ons listings follow once the stores have reviewed them. The interface in every image here is a real screenshot of the built apps, taken by Playwright (`make screenshots`).
+Zimanyar **1.0.0** is out. The browser extension, the Linux desktop app, the command line and the language server are on the [releases page](https://github.com/kanilabs/Zimanyar/releases), with checksums, a signature and build provenance for every file (see [RELEASING.md](RELEASING.md)); the Chrome Web Store and Firefox Add-ons listings follow once the stores have reviewed them. The interface in every image here is a real screenshot of the built apps, taken by Playwright (`make screenshots`).
 
 ## Features
 
@@ -82,7 +82,7 @@ All surfaces share one engine, one rule set and one interface.
 | Linux desktop | editor, lessons, tools; a global shortcut checks the clipboard | `.deb`, `.rpm`, AppImage, Ubuntu PPA |
 | Command line | `zimanyar check`, with text, JSON and SARIF output for CI, and the word tools and lessons | npm, `.deb`, a single executable |
 | Editors | diagnostics, quick fixes, hovers and completion over LSP | `zimanyar-lsp` |
-| Web | a live checker, the lessons and the rule catalogue | <https://0xdolan.github.io/Zimanyar/> |
+| Web | a live checker, the lessons and the rule catalogue | <https://kanilabs.github.io/Zimanyar/> |
 
 The extension asks for the fewest permissions it can: it runs only on the sites you turn it on for, and never loads remote code.
 
@@ -94,7 +94,7 @@ Not planned: an extension for VS Code (the language server works with any editor
 
 ## How it works
 
-Zimanyar is a TypeScript port of [zimankit](https://github.com/0xdolan/zimankit), the Kurdish linguistic toolkit: normalisation, tokenisation, language identification, IPA, transliteration, morphology, verb paradigms and the split-ergativity checker. Tens of thousands of input and output pairs exported from zimankit are replayed against the port in CI, and any difference fails the build.
+Zimanyar is a TypeScript port of [zimankit](https://github.com/kanilabs/zimankit), the Kurdish linguistic toolkit: normalisation, tokenisation, language identification, IPA, transliteration, morphology, verb paradigms and the split-ergativity checker. Tens of thousands of input and output pairs exported from zimankit are replayed against the port in CI, and any difference fails the build.
 
 ```
 @zimanyar/data       lexicon automata and rule data, built from the zimankit bundle
@@ -130,8 +130,8 @@ zimanyar translit "Bi bawerî kurdî binivîse."
 
 The lessons Zimanyar links to come from zimankit's two complete courses, each with 23 lessons from beginner to advanced:
 
-- [Central Kurdish (Sorani) course](https://github.com/0xdolan/zimankit/tree/main/docs/tutorials/ckb)
-- [Northern Kurdish (Kurmanji) course](https://github.com/0xdolan/zimankit/tree/main/docs/tutorials/kmr)
+- [Central Kurdish (Sorani) course](https://github.com/kanilabs/zimankit/tree/main/docs/tutorials/ckb)
+- [Northern Kurdish (Kurmanji) course](https://github.com/kanilabs/zimankit/tree/main/docs/tutorials/kmr)
 
 ## Development
 
@@ -183,8 +183,8 @@ Zimanyar follows git flow. Work happens on `feature/NAME` branches from `develop
 
 ## Credits
 
-- Linguistic engine and lessons: [zimankit](https://github.com/0xdolan/zimankit).
-- Sibling project: [Roj](https://github.com/0xdolan/roj), the Kurdish solar calendar.
+- Linguistic engine and lessons: [zimankit](https://github.com/kanilabs/zimankit).
+- Sibling project: [Roj](https://github.com/kanilabs/roj), the Kurdish solar calendar.
 - Roj emblem: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Roj_emblem.svg), public domain. Story sources: [docs/STORY.md](docs/STORY.md).
 - Fonts under the SIL Open Font License 1.1: [IBM Plex Sans](https://github.com/IBM/plex), [Vazirmatn](https://github.com/rastikerdar/vazirmatn).
 

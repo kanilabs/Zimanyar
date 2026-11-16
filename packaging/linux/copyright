@@ -1,6 +1,6 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: Zimanyar
-Source: https://github.com/0xdolan/Zimanyar
+Source: https://github.com/kanilabs/Zimanyar
 
 Files: *
 Copyright: 2026 Dolan H.
@@ -9,7 +9,7 @@ License: GPL-3+
 Files: lexicons/*
 Copyright: 2026 Dolan H. and the contributors listed in the zimankit data notice
 License: CC-BY-SA-4.0
- The word data comes from zimankit. See https://github.com/0xdolan/zimankit
+ The word data comes from zimankit. See https://github.com/kanilabs/zimankit
  .
  This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
  International License. See https://creativecommons.org/licenses/by-sa/4.0/
