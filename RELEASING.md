@@ -55,7 +55,7 @@ same builds as a rehearsal, publishes nothing and keeps the files as an artefact
 | `SHA256SUMS`, `SHA256SUMS.sig` | checksums, and the maintainer's signature over them |
 
 Check a download with `sha256sum --check --ignore-missing SHA256SUMS`,
-`gpg --verify SHA256SUMS.sig SHA256SUMS` and `gh attestation verify FILE --repo 0xdolan/Zimanyar`.
+`gpg --verify SHA256SUMS.sig SHA256SUMS` and `gh attestation verify FILE --repo kanilabs/Zimanyar`.
 
 ## Hotfixes
 

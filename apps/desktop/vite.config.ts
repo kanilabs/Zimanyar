@@ -7,7 +7,7 @@ import { defineConfig } from "vite";
 export default defineConfig({
   plugins: [...appPlugins(), react({ include: /\.(tsx|mdx)$/ }), tailwindcss()],
   worker: { format: "es" },
-  define: { __APP_VERSION__: JSON.stringify(process.env["npm_package_version"] ?? "1.1.0") },
+  define: { __APP_VERSION__: JSON.stringify(process.env["npm_package_version"] ?? "1.1.1") },
   clearScreen: false,
   build: {
     // Fonts small enough sit inside the stylesheet, which the overlay's closed shadow root can use.

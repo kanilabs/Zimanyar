@@ -4,6 +4,17 @@ All notable changes to Zimanyar are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.1.1] - 2026-11-16
+
+### Fixed
+
+- **release:** Name the repository when publishing from the download folder
+- **deps:** Update astro to 7.4.7 for two advisories
+
+### Documentation
+
+- Point links to the kanilabs organization
+
 ## [1.1.0] - 2026-11-10
 
 ### Added

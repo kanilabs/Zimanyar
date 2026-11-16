@@ -7,10 +7,10 @@ export const getStaticPaths = localePaths;
 const lang = Astro.props.lang as UiLang;
 const t = createT(lang);
 const parts = [
-  [t("licences.code"), "GPL-3.0-or-later", "https://github.com/0xdolan/Zimanyar/blob/main/LICENSE"],
-  [t("licences.data"), "CC BY-SA 4.0", "https://github.com/0xdolan/Zimanyar/blob/main/packages/data/NOTICE"],
-  [t("licences.lessons"), "GPL-3.0-or-later", "https://github.com/0xdolan/zimankit"],
-  [t("licences.fonts"), "OFL-1.1", "https://github.com/0xdolan/Zimanyar/blob/main/NOTICE"],
+  [t("licences.code"), "GPL-3.0-or-later", "https://github.com/kanilabs/Zimanyar/blob/main/LICENSE"],
+  [t("licences.data"), "CC BY-SA 4.0", "https://github.com/kanilabs/Zimanyar/blob/main/packages/data/NOTICE"],
+  [t("licences.lessons"), "GPL-3.0-or-later", "https://github.com/kanilabs/zimankit"],
+  [t("licences.fonts"), "OFL-1.1", "https://github.com/kanilabs/Zimanyar/blob/main/NOTICE"],
 ];
 ---
 
@@ -23,5 +23,5 @@ const parts = [
       {parts.map(([part, licence, href]) => <tr><td>{part}</td><td dir="ltr"><a href={href}>{licence}</a></td></tr>)}
     </tbody>
   </table>
-  <p>{t("licences.others")} <a href="https://github.com/0xdolan/Zimanyar/blob/main/NOTICE">NOTICE</a></p>
+  <p>{t("licences.others")} <a href="https://github.com/kanilabs/Zimanyar/blob/main/NOTICE">NOTICE</a></p>
 </SitePage>

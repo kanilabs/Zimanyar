@@ -13,7 +13,7 @@ export default defineConfig({
   manifest: ({ browser }) => ({
     name: "Zimanyar",
     description: "Check and learn Kurdish as you write, in Sorani and Kurmanji. Nothing leaves your device.",
-    homepage_url: "https://0xdolan.github.io/Zimanyar/",
+    homepage_url: "https://kanilabs.github.io/Zimanyar/",
     permissions: [
       "storage",
       "activeTab",

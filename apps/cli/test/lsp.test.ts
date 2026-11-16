@@ -101,7 +101,7 @@ describe("diagnostics", () => {
       code: "kmr.ergative.agreement",
       source: "zimanyar",
       message: "In the past this verb agrees with the object, tu.",
-      codeDescription: { href: "https://0xdolan.github.io/Zimanyar/rules/kmr.ergative.agreement/" },
+      codeDescription: { href: "https://kanilabs.github.io/Zimanyar/rules/kmr.ergative.agreement/" },
     });
   });
 
@@ -229,8 +229,8 @@ describe("hover", () => {
     const { value } = hover.contents as MarkupContent;
     expect(value).toContain("**In the past this verb agrees with the object, tu\\.**");
     expect(value).toContain("Fix: dîtim → dîtî");
-    expect(value).toMatch(/\]\(https:\/\/0xdolan\.github\.io\/Zimanyar\/learn\/kurmanji\/14-[^)]+\)/);
-    expect(value).toContain("[`kmr.ergative.agreement`](https://0xdolan.github.io/Zimanyar/rules/");
+    expect(value).toMatch(/\]\(https:\/\/kanilabs\.github\.io\/Zimanyar\/learn\/kurmanji\/14-[^)]+\)/);
+    expect(value).toContain("[`kmr.ergative.agreement`](https://kanilabs.github.io/Zimanyar/rules/");
     const none = await client.sendRequest("textDocument/hover", {
       textDocument: { uri: "file:///a.txt" },
       position: position(0, 1),

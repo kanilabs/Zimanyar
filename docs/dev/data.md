@@ -1,6 +1,6 @@
 # The data pipeline
 
-Zimanyar's lexicon comes from [zimankit](https://github.com/0xdolan/zimankit). Python only downloads, verifies and exports it; TypeScript compiles it.
+Zimanyar's lexicon comes from [zimankit](https://github.com/kanilabs/zimankit). Python only downloads, verifies and exports it; TypeScript compiles it.
 
 ```sh
 make data

@@ -29,7 +29,7 @@ if [ -n "${KEY:-}" ]; then sign=(-k"$KEY"); else sign=(-us -uc); fi
 
 assets="${RELEASE_DIR:-$work/assets}"
 if [ -z "${RELEASE_DIR:-}" ]; then
-  gh release download "v$version" -R 0xdolan/Zimanyar -D "$assets" -p SHA256SUMS \
+  gh release download "v$version" -R kanilabs/Zimanyar -D "$assets" -p SHA256SUMS \
     -p "zimanyar-cli-$version-linux-*.tar.gz" -p "zimanyar_${version}_*.deb"
 fi
 (cd "$assets" && sha256sum --ignore-missing --strict -c SHA256SUMS)

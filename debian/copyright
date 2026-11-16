@@ -1,7 +1,7 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: Zimanyar
 Upstream-Contact: Dolan H. <0xdolan@gmail.com>
-Source: https://github.com/0xdolan/Zimanyar
+Source: https://github.com/kanilabs/Zimanyar
 Comment:
  /usr/bin/zimanyar is a single executable: a copy of the Node.js runtime,
  with the bundled command line and the word data written into it. Node.js
@@ -18,7 +18,7 @@ License: GPL-3+
 Files: packages/data/*
 Copyright: 2026 Dolan H. and the contributors listed in the zimankit data notice
 License: CC-BY-SA-4.0
- The word data comes from zimankit. See https://github.com/0xdolan/zimankit
+ The word data comes from zimankit. See https://github.com/kanilabs/zimankit
  .
  This work is licensed under the Creative Commons Attribution-ShareAlike 4.0
  International License. See https://creativecommons.org/licenses/by-sa/4.0/

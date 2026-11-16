@@ -19,9 +19,9 @@
     </ul>
   </description>
   <launchable type="desktop-id">Zimanyar.desktop</launchable>
-  <url type="homepage">https://0xdolan.github.io/Zimanyar/</url>
-  <url type="bugtracker">https://github.com/0xdolan/Zimanyar/issues</url>
-  <url type="vcs-browser">https://github.com/0xdolan/Zimanyar</url>
+  <url type="homepage">https://kanilabs.github.io/Zimanyar/</url>
+  <url type="bugtracker">https://github.com/kanilabs/Zimanyar/issues</url>
+  <url type="vcs-browser">https://github.com/kanilabs/Zimanyar</url>
   <developer id="io.github._0xdolan">
     <name>Dolan H.</name>
   </developer>
@@ -34,6 +34,11 @@
     <binary>zimanyar-desktop</binary>
   </provides>
   <releases>
+    <release version="1.1.1" date="2026-11-16">
+      <description>
+        <p>Links point to the kanilabs organization; website security fixes.</p>
+      </description>
+    </release>
     <release version="1.1.0" date="2026-11-10">
       <description>
         <p>Follows zimankit 0.4.0: Sorani verb forms and ordinals, Kurmanji verbs.</p>
