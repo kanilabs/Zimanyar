@@ -1,3 +1,9 @@
+zimanyar (1.1.1) unstable; urgency=medium
+
+  * Links point to the kanilabs organization; website security fixes.
+
+ -- Dolan H. <0xdolan@gmail.com>  Mon, 16 Nov 2026 14:48:57 +0000
+
 zimanyar (1.1.0) unstable; urgency=medium
 
   * Follows zimankit 0.4.0: Sorani verb forms and ordinals, Kurmanji verbs.
