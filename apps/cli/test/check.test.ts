@@ -212,7 +212,7 @@ describe("SARIF", () => {
     expect(run.columnKind).toBe("utf16CodeUnits");
     expect(run.tool.driver.rules[0]).toMatchObject({
       id: "kmr.ergative.agreement",
-      helpUri: "https://0xdolan.github.io/Zimanyar/rules/kmr.ergative.agreement/",
+      helpUri: "https://kanilabs.github.io/Zimanyar/rules/kmr.ergative.agreement/",
       defaultConfiguration: { level: "error" },
     });
     const [result] = run.results;

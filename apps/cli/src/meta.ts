@@ -6,7 +6,7 @@ export const VERSION: string = meta.version;
 export const DATA_VERSION: string = meta.data;
 export const ZIMANKIT_VERSION: string = meta.zimankit;
 
-export const SITE = "https://0xdolan.github.io/Zimanyar/";
+export const SITE = "https://kanilabs.github.io/Zimanyar/";
 
 /** A lesson's address on the website. The command line itself never opens it. */
 export const lessonUrl = (lesson: Pick<LessonRef, "lang" | "lessonId">): string =>

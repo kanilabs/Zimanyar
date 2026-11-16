@@ -155,7 +155,7 @@ export function rewriteLinks(text: string, file: string, lang: Course): string {
     if (course !== "ckb" && course !== "kmr") {
       // Outside the courses: the rest of zimankit's documentation lives with zimankit.
       const docs = posix.normalize(posix.join("docs/tutorials", resolved));
-      return `](https://github.com/0xdolan/zimankit/blob/main/${docs}${hash})`;
+      return `](https://github.com/kanilabs/zimankit/blob/main/${docs}${hash})`;
     }
     const here = posix.join(COURSE_PATH[lang], targetOf(file));
     // Links between the two courses go by address, which is not the folder's name.

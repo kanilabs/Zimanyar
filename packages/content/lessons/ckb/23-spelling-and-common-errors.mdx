@@ -9,7 +9,7 @@ rules: ["ckb.morph.definite-adjective-order","ckb.morph.definite-allomorph","ckb
 
 import { LessonRules, Normalize } from "../../src/components.tsx";
 
-You can now read and write Sorani grammatically. This lesson covers what separates a correct text from a merely understandable one: the spelling standard, and the mistakes that native writers and machines make most. Sections 1 to 6 are implemented in zimankit (`skills_ckb/orthography.py`); section 7 and the fuller [written standard](https://github.com/0xdolan/zimankit/blob/main/docs/23-ckb-written-standard.md) are only partly implemented, so this lesson is also the specification of a future grammar checker.
+You can now read and write Sorani grammatically. This lesson covers what separates a correct text from a merely understandable one: the spelling standard, and the mistakes that native writers and machines make most. Sections 1 to 6 are implemented in zimankit (`skills_ckb/orthography.py`); section 7 and the fuller [written standard](https://github.com/kanilabs/zimankit/blob/main/docs/23-ckb-written-standard.md) are only partly implemented, so this lesson is also the specification of a future grammar checker.
 
 ## 1. Use Kurdish letters, not Arabic or Persian ones
 
@@ -59,7 +59,7 @@ Most are the legacy ه-for-ە problem of section 4 on words the normaliser could
 
 ## 7. The spelling standard
 
-The rules below come from the written-standard sources in [chapter 23](https://github.com/0xdolan/zimankit/blob/main/docs/23-ckb-written-standard.md), which also says where those sources disagree. The last column says what `validate_word()` checks, and most spacing needs grammar, so it is not checked:
+The rules below come from the written-standard sources in [chapter 23](https://github.com/kanilabs/zimankit/blob/main/docs/23-ckb-written-standard.md), which also says where those sources disagree. The last column says what `validate_word()` checks, and most spacing needs grammar, so it is not checked:
 
 | write | not | why | checked |
 |---|---|---|---|

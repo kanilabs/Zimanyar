@@ -19,7 +19,7 @@ Read `PRD.md` first. It is the specification; implement it phase by phase (secti
 
 - TypeScript everywhere (strict). Python only for data export, always through `uv` (`uv run`, `uv add`); never pip or a system Python.
 - The linguistic engine (`packages/core`) must stay free of DOM, browser and Node-only APIs so it runs in workers, Node and Tauri alike.
-- Behaviour of the engine must match zimankit (`github.com/0xdolan/zimankit`); parity fixtures decide. Record intentional differences in `docs/dev/parity-exceptions.md`.
+- Behaviour of the engine must match zimankit (`github.com/kanilabs/zimankit`); parity fixtures decide. Record intentional differences in `docs/dev/parity-exceptions.md`.
 - No network requests from the checker, extension or desktop app.
 - Install and use the shadcn skill (`pnpm dlx skills add shadcn/ui`) and the ui-ux-pro-max skill before UI work (PRD section 12.1).
 - Verify UI changes with Playwright screenshots (`make screenshots`), never in the user's own browser profile. When a change alters anything a screenshot shows, regenerate, look at every changed image and commit them with the change.

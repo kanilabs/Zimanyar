@@ -24,7 +24,7 @@ Shellcheck, actionlint, ruff and git-cliff come from the uv dev group, so you do
 6. **Three languages.** Every interface string goes through `t()` and has entries in the English, Sorani and Kurmanji catalogues.
 7. **TypeScript, strict.** Python is used only to export data from zimankit, always through `uv run` and `uv add`, never pip.
 8. **The engine stays portable.** `packages/core` uses no DOM, browser or Node-only APIs, so it runs in workers, Node and Tauri.
-9. **Parity with zimankit.** The engine must behave like [zimankit](https://github.com/0xdolan/zimankit); parity fixtures decide. Intentional differences go in [docs/dev/parity-exceptions.md](docs/dev/parity-exceptions.md).
+9. **Parity with zimankit.** The engine must behave like [zimankit](https://github.com/kanilabs/zimankit); parity fixtures decide. Intentional differences go in [docs/dev/parity-exceptions.md](docs/dev/parity-exceptions.md).
 10. **Private by design.** No network requests from the checker, the extension or the desktop app.
 11. **Screenshots.** When a change alters anything a screenshot shows, run `make screenshots`, look at every changed image and commit them with the change. Never use your own browser profile for this.
 12. **Rules need evidence.** A new checking rule needs metadata in three languages, at least 20 tests, two wrong and right examples, a lesson link and gold corpus entries.

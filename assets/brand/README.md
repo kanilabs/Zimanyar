@@ -6,7 +6,7 @@
 
 **The Kurdish sun under the crown.** The logo joins two Kurdish signs: the **crown** (تاج, *taj*) of *deq*, the traditional Kurdish tattoo, which stands for leadership and truthfulness, and **Roj**, the 21-ray sun of the flag of Kurdistan, which shines where the sign has its dot. The crown's left foot and long stroke form a check mark: correct, truthful Kurdish. The story and its sources are in [docs/STORY.md](../../docs/STORY.md).
 
-The logo is a sibling of the [Roj](https://github.com/0xdolan/roj) logo, which also joins a deq sign with the sun of the flag, and shares its white disc with a thin rim.
+The logo is a sibling of the [Roj](https://github.com/kanilabs/roj) logo, which also joins a deq sign with the sun of the flag, and shares its white disc with a thin rim.
 
 ## Colours
 

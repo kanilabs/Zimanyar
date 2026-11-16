@@ -129,7 +129,7 @@ describe("links", () => {
 
   it("sends a link outside the courses to zimankit", () => {
     expect(rewriteLinks("[a](../../../23-standard.md#x)", "1-beginner/02-a.md", "ckb")).toBe(
-      "[a](https://github.com/0xdolan/zimankit/blob/main/docs/23-standard.md#x)",
+      "[a](https://github.com/kanilabs/zimankit/blob/main/docs/23-standard.md#x)",
     );
   });
 

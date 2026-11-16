@@ -19,9 +19,9 @@
     </ul>
   </description>
   <launchable type="desktop-id">Zimanyar.desktop</launchable>
-  <url type="homepage">https://0xdolan.github.io/Zimanyar/</url>
-  <url type="bugtracker">https://github.com/0xdolan/Zimanyar/issues</url>
-  <url type="vcs-browser">https://github.com/0xdolan/Zimanyar</url>
+  <url type="homepage">https://kanilabs.github.io/Zimanyar/</url>
+  <url type="bugtracker">https://github.com/kanilabs/Zimanyar/issues</url>
+  <url type="vcs-browser">https://github.com/kanilabs/Zimanyar</url>
   <developer id="io.github._0xdolan">
     <name>Dolan H.</name>
   </developer>

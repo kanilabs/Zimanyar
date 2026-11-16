@@ -44,7 +44,7 @@ The logo uses the emblem itself, unchanged, in its own gold, in place of the cro
 
 ### A sibling of Roj
 
-Zimanyar is a sibling of [Roj](https://github.com/0xdolan/roj), the Kurdish solar calendar, whose logo also joins a deq sign with the sun of the flag. Both logos share the white disc with a thin rim and the same flat, hand-drawn line.
+Zimanyar is a sibling of [Roj](https://github.com/kanilabs/roj), the Kurdish solar calendar, whose logo also joins a deq sign with the sun of the flag. Both logos share the white disc with a thin rim and the same flat, hand-drawn line.
 
 ### Colours
 

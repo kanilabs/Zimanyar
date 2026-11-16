@@ -5,7 +5,7 @@ description: Port a zimankit (Python) function or module to @zimanyar/core (Type
 
 # Porting from zimankit
 
-zimankit (`github.com/0xdolan/zimankit`, same author, GPL-3.0-or-later) is the linguistic
+zimankit (`github.com/kanilabs/zimankit`, same author, GPL-3.0-or-later) is the linguistic
 source of truth. `@zimanyar/core` is a faithful port; parity fixtures decide what is correct.
 
 ## Steps
