@@ -1,4 +1,4 @@
-zimankit=0.4.0
-bundle=zimankit-lexicon-0.4.0.tar.zst
-sha256=0933cb0e6c62ff1098ab56b87735becc7d6acb690a1b883b2770290e1fda18bf
-data=2026.11.2
+zimankit=0.5.0
+bundle=zimankit-lexicon-0.5.0.tar.zst
+sha256=d4a963c9bc76951205517394b4104ea8c7aabd0612df9752bb4ef05f096ab2f7
+data=2026.11.3

@@ -227,7 +227,7 @@ export class CkbAnalyzer {
   private nominal(word: string, prefix: [string, string][]): Analysis[] {
     const candidates: Candidate[] = [];
     peel(word, 0, [], candidates);
-    return candidates.map(([peeledStem, segments]) => {
+    return candidates.flatMap(([peeledStem, segments]) => {
       let stem = peeledStem;
       const inLexicon = this.lexicon.has(stem);
       let score = this.stemScore(stem);
@@ -278,6 +278,13 @@ export class CkbAnalyzer {
         if (tag === "PL.GEL" && this.fw.has(stem)) score -= 6;
         // A listed word stays whole.
         if (tag === "E" && (this.lexicon.has(word) || this.fw.has(word))) score -= 3;
+        if (tag.startsWith("VOC")) {
+          // Only on a listed word, alone: کچ+ینە, but not شیرینە (listed); ێ stays behind the indefinite.
+          if (!inLexicon || segments.length > 1) score -= 12;
+          else if (tag === "VOC.PL" && this.notPluralVocative(word, stem)) score -= 12;
+          // ینە is rare in running text: ranked low, still returned.
+          score -= tag === "VOC" ? 0.2 : 3;
+        }
         // A verb is a verb: بووە, کردە, نیشاندام.
         if (
           (tag === "E" || tag.startsWith("COP")) &&
@@ -289,48 +296,102 @@ export class CkbAnalyzer {
         posHint ??= affix.posHint;
       }
       const tags = segments.map(({ affix }) => affix);
+      const results: Analysis[] = [];
       // The listed word behind a changed stem: ماس+ێکە is ماسی, پەنجەر+ان is پەنجەرە.
       if (tags.some(({ form }) => form === "ێکە" || form === "ێکان") && this.lexicon.has(`${stem}ی`)) {
         stem += "ی";
-      } else if (
-        !this.lexicon.has(stem) &&
-        this.lexicon.has(`${stem}ە`) &&
-        tags.some(({ tag }) => tag === "PL")
-      ) {
-        score += this.stemScore(`${stem}ە`) - this.stemScore(stem);
-        stem += "ە";
+      } else if (this.lexicon.has(`${stem}ە`) && tags.some(({ tag }) => tag === "PL")) {
+        const gain = this.stemScore(`${stem}ە`) - this.stemScore(stem);
+        if (!this.lexicon.has(stem)) {
+          score += gain;
+          stem += "ە";
+        } else if (
+          tags.some(({ form, tag }) => form === "ان" && tag === "PL") &&
+          !endsWithVowel(stem) &&
+          !this.fw.has(stem) &&
+          !this.lexicon.has(`${stem}ان`) &&
+          !this.lexicon.has(word) &&
+          this.verbs.lookup(word).length === 0
+        ) {
+          // Both listed: پەنجەر+ان or پەنجەرە with ە dropped; the commoner word wins (پەنجەرە, but شار).
+          // Not after a vowel (خۆیان), not for a verb (نامان, دایان), and not when the plural or the
+          // whole word is listed (پلان, کێشان, کۆبانی).
+          results.push(
+            this.nominalResult(
+              word,
+              prefix,
+              `${stem}ە`,
+              segments,
+              { ...features },
+              posHint,
+              score + gain - 0.3,
+            ),
+          );
+        }
       }
-      let pos = this.choosePos(stem, posHint, segments.length > 0);
-      if (this.ordinal(stem)) {
-        pos = "ADJ";
-        features["numtype"] ??= "ord";
-      }
-      const functionWord = this.fw.get(stem);
-      if (functionWord && segments.length === 0) {
-        pos = functionWord[0];
-        Object.assign(features, functionWord[1]);
-      } else if (cliticAdpositions.includes(stem) && tags.every(({ tag }) => encliticTags.has(tag))) {
-        pos = "ADP";
-        features["adptype"] = "bare";
-        score += 5;
-      }
-      const written =
-        segments.length > 0
-          ? word.slice(0, word.length - tags.reduce((total, { form }) => total + form.length, 0))
-          : stem;
-      return {
-        surface: prefix.map(([morph]) => morph).join("") + word,
-        lemma: stem,
-        pos,
-        features,
-        segments: [
-          ...prefix,
-          [written, "STEM"],
-          ...segments.map(({ affix }): [string, string] => [affix.form, affix.tag]),
-        ],
-        score: round(score - 0.3 * prefix.length, 3),
-      };
+      results.push(this.nominalResult(word, prefix, stem, segments, features, posHint, score));
+      return results;
     });
+  }
+
+  /**
+   * ینە is rarely the vocative in running text: ڕەنگین+ە, زێڕین+ە, چوارەمین+ە, بە+زۆرینە.
+   *
+   * Keep it for a noun (or a noun listed as ADJ, like کوڕ) whose ین-form is not listed or is rare
+   * (کوڕ+ینە; کوڕین is under 1% of کوڕ).
+   */
+  private notPluralVocative(word: string, stem: string): boolean {
+    const known = this.lexicon.posOf(stem);
+    if (this.lexicon.has(word) || this.ordinal(stem) || !(known.has("NOUN") || known.has("ADJ"))) return true;
+    // کردین+ە, بمێنین: a verb with the directional ە.
+    if (this.verbs.lookup(`${stem}ین`).length > 0) return true;
+    // بە+زۆرینە, لە+چینە.
+    if (["بە", "لە", "بۆ"].some((p) => word.startsWith(p) && this.lexicon.has(word.slice(p.length))))
+      return true;
+    return this.lexicon.freq(`${stem}ین`) * 100 >= Math.max(this.lexicon.freq(stem), 1);
+  }
+
+  private nominalResult(
+    word: string,
+    prefix: [string, string][],
+    stem: string,
+    segments: PeeledAffix[],
+    features: Record<string, string>,
+    posHint: string | null,
+    baseScore: number,
+  ): Analysis {
+    let score = baseScore;
+    const tags = segments.map(({ affix }) => affix);
+    let pos = this.choosePos(stem, posHint, segments.length > 0);
+    if (this.ordinal(stem)) {
+      pos = "ADJ";
+      features["numtype"] ??= "ord";
+    }
+    const functionWord = this.fw.get(stem);
+    if (functionWord && segments.length === 0) {
+      pos = functionWord[0];
+      Object.assign(features, functionWord[1]);
+    } else if (cliticAdpositions.includes(stem) && tags.every(({ tag }) => encliticTags.has(tag))) {
+      pos = "ADP";
+      features["adptype"] = "bare";
+      score += 5;
+    }
+    const written =
+      segments.length > 0
+        ? word.slice(0, word.length - tags.reduce((total, { form }) => total + form.length, 0))
+        : stem;
+    return {
+      surface: prefix.map(([morph]) => morph).join("") + word,
+      lemma: stem,
+      pos,
+      features,
+      segments: [
+        ...prefix,
+        [written, "STEM"],
+        ...segments.map(({ affix }): [string, string] => [affix.form, affix.tag]),
+      ],
+      score: round(score - 0.3 * prefix.length, 3),
+    };
   }
 
   /** بە+خێرا+یی, بە+جوان+ی: the adverbs of manner, when the middle is a known word. */
@@ -811,7 +872,11 @@ export class CkbAnalyzer {
   analyze(token: string, normalized = false): Analysis[] {
     const word = normalized ? token : normalizeWord(token);
     if (word === "") return [];
-    const results = [...this.verbal(word), ...this.nominal(word, [])];
+    const verbal = this.verbal(word);
+    let nominal = this.nominal(word, []);
+    // دەبین+ە, نامین+ە are verbs, not vocatives.
+    if (verbal.length > 0) nominal = nominal.filter((reading) => !("vocative" in reading.features));
+    const results = [...verbal, ...nominal];
     const known = this.lexicon.has(word) || this.fw.has(word);
     for (const [pre, tag] of CKB_PROCLITICS as [string, string][]) {
       const rest = trimStart(word.slice(pre.length), ZWNJ);

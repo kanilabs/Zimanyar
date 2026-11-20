@@ -10,8 +10,10 @@ export {
 export {
   type CkbOrthographyOptions,
   isLegacyEncoded,
+  type KnownWords,
   normalize,
   normalizeWord,
+  singleYCopula,
   spellingVariants,
   structuralProblems,
   validateWord,
