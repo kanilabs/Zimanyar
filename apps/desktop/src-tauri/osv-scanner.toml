@@ -25,3 +25,8 @@ reason = "zbus_names is unmaintained, which is a notice and not a flaw. It comes
 id = "RUSTSEC-2026-0372"
 ignoreUntil = 2027-05-01
 reason = "zvariant_derive is unmaintained, which is a notice and not a flaw. It comes through zbus, and has no fixed version."
+
+[[IgnoredVulns]]
+id = "RUSTSEC-2026-0543"
+ignoreUntil = 2027-05-01
+reason = "chrono is unmaintained, which is a notice and not a flaw. It comes through tauri-utils and serde_with, and has no fixed version."

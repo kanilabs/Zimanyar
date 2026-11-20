@@ -147,8 +147,33 @@ export function structuralProblems(word: string): string[] {
 const finalUOk = new Set(CKB_FINAL_U_OK);
 const OVERRIDES = CKB_STANDARD_OVERRIDES as Record<string, string>;
 
-/** What is wrong with a word's spelling against the written standard; an empty list means nothing is. */
-export function validateWord(word: string): string[] {
+/** A set of known words: a lexicon, a Set or anything else with has(). */
+export interface KnownWords {
+  has(word: string): boolean;
+}
+
+/**
+ * سپیە to سپییە: a known ی-final word keeps its ی before the copula یە (Diyako's ڕێنووس, 2010
+ * pamphlet). Only after a consonant + ی (not مامۆستایە, قسەیە), and only when the word without ە is
+ * in `known`, so a loanword such as سوریە is not touched unless سوری is listed.
+ */
+export function singleYCopula(word: string, known: KnownWords): string | null {
+  if (
+    length(word) >= 4 &&
+    word.endsWith("یە") &&
+    !"اەۆێیو".includes(Array.from(word).at(-3) as string) &&
+    known.has(word.slice(0, -1))
+  ) {
+    return `${word.slice(0, -1)}یە`;
+  }
+  return null;
+}
+
+/**
+ * What is wrong with a word's spelling against the written standard; an empty list means nothing is. With
+ * `known` (a lexicon), also flags a missing ی before the copula: سپیە to سپییە.
+ */
+export function validateWord(word: string, known?: KnownWords): string[] {
   const problems = structuralProblems(word);
   if (word === "") return problems;
   if (word[0] === "ڵ") problems.push("initial ڵ");
@@ -166,6 +191,10 @@ export function validateWord(word: string): string[] {
   if (word.includes("یییی")) problems.push("more than three ی");
   const standard = OVERRIDES[word];
   if (standard !== undefined) problems.push(`the standard spelling is ${standard}`);
+  else if (known !== undefined && !known.has(word)) {
+    const fixed = singleYCopula(word, known);
+    if (fixed !== null) problems.push(`the standard spelling is ${fixed}`);
+  }
   return problems;
 }
 
