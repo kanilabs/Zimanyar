@@ -343,3 +343,89 @@ describe("ordinals", () => {
     }
   });
 });
+
+describe("zimankit 0.5.0: the rezmanikurdi audit", () => {
+  it.each([
+    ["ژییان", "ژیان"],
+    ["ئەلفوبێ", "ئەلفبێ"],
+    ["حەوتسەد", "حەوت سەد"],
+  ])("names the standard spelling of %s", (word, standard) => {
+    expect(validateWord(word)).toContain(`the standard spelling is ${standard}`);
+  });
+
+  it("flags a single ی before the copula only with a lexicon", () => {
+    const known = new Set(["سپی", "کوردی", "مامۆستا", "قسە"]);
+    expect(validateWord("سپیە", known)).toContain("the standard spelling is سپییە");
+    expect(validateWord("کوردیە", known)).toContain("the standard spelling is کوردییە");
+    for (const word of ["سپییە", "مامۆستایە", "قسەیە", "سوریە"])
+      expect(validateWord(word, known)).toEqual([]);
+    expect(validateWord("سپیە")).toEqual([]);
+    expect(validateWord("سپیە", new Set([...known, "سپیە"]))).toEqual([]);
+  });
+
+  it.each([
+    ["مەسەلان", "مەسەلە"],
+    ["پەنجەران", "پەنجەرە"],
+    ["شاران", "شار"],
+    ["قوتابخانان", "قوتابخانە"],
+  ])("reads the plural %s of an ە-final noun as %s, the commoner word winning", (word, lemma) => {
+    const frequencies: Record<string, number> = {
+      مەسەل: 300,
+      مەسەلە: 20000,
+      نام: 460,
+      نامە: 20584,
+      پەنجەر: 303,
+      پەنجەرە: 3464,
+      شار: 55445,
+      شارە: 34891,
+      قوتابخانە: 9000,
+    };
+    const lexicon = new SimpleLexicon();
+    for (const [lemmaWord, frequency] of Object.entries(frequencies))
+      lexicon.add(lemmaWord, "NOUN", null, frequency);
+    const analyzer = new CkbAnalyzer(lexicon);
+    const best = analyzer.best(word);
+    expect([best?.lemma, best?.features["number"]]).toEqual([lemma, "pl"]);
+    // نا+مان "we put" is a verb form, so نامە+ان is not preferred.
+    expect(analyzer.best("نامان")?.pos).toBe("VERB");
+  });
+
+  it("recognises the vocative endings ێ and ینە", () => {
+    const lexicon = new SimpleLexicon();
+    for (const word of ["کچ", "کوڕ", "شیر", "شیرینە"]) lexicon.add(word, "NOUN");
+    const analyzer = new CkbAnalyzer(lexicon);
+    expect(
+      analyzer
+        .analyze("کچێ")
+        .some((reading) => reading.lemma === "کچ" && reading.features["vocative"] === "f"),
+    ).toBe(true);
+    for (const [word, lemma] of [
+      ["کچینە", "کچ"],
+      ["کوڕینە", "کوڕ"],
+    ] as const) {
+      const best = analyzer.best(word);
+      expect([best?.lemma, best?.features["vocative"], best?.features["number"]]).toEqual([
+        lemma,
+        "pl",
+        "pl",
+      ]);
+    }
+    expect(analyzer.best("شیرینە")?.lemma).toBe("شیرینە");
+    // دەبین+ە is a verb.
+    expect(analyzer.analyze("دەبینە").some((reading) => "vocative" in reading.features)).toBe(false);
+  });
+
+  it("writes the preverb دەر apart and still reads it solid", () => {
+    const index = ckb.defaultIndex();
+    const verb = index.verbs.get("دەرچوون") as ckb.Verb;
+    const forms = new Map(
+      conjugate(verb)
+        .filter((form) => !form.features["variant"])
+        .map((form) => [form.form, ckb.standardSpelling(verb, form)]),
+    );
+    expect(forms.get("دەردەچم")).toBe("دەر دەچم");
+    expect(forms.get("دەرچووم")).toBe("دەر چووم");
+    expect(index.lookup("دەردەچم").length).toBeGreaterThan(0);
+    expect(index.lookupSplit(["دەر", "دەچم"])?.[1].lemma).toBe("دەرچوون");
+  });
+});
