@@ -1,3 +1,10 @@
+zimanyar (1.2.0) unstable; urgency=medium
+
+  * Follows zimankit 0.5.0: Sorani vocatives, plurals of ە-final nouns and
+    spelling checks.
+
+ -- Dolan H. <0xdolan@gmail.com>  Sat, 21 Nov 2026 01:01:09 +0000
+
 zimanyar (1.1.1) unstable; urgency=medium
 
   * Links point to the kanilabs organization; website security fixes.
