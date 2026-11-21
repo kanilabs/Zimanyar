@@ -34,6 +34,11 @@
     <binary>zimanyar-desktop</binary>
   </provides>
   <releases>
+    <release version="1.2.0" date="2026-11-21">
+      <description>
+        <p>Follows zimankit 0.5.0: Sorani vocatives, plurals of ە-final nouns and spelling checks.</p>
+      </description>
+    </release>
     <release version="1.1.1" date="2026-11-16">
       <description>
         <p>Links point to the kanilabs organization; website security fixes.</p>
