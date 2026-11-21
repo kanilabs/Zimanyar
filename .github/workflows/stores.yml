@@ -1,0 +1,92 @@
+name: Stores
+
+# Publishing a release (make release-sign) sends its Chrome zip to the Chrome Web Store and its
+# Firefox xpi with the source zip to AMO, both for review (RELEASING.md, step 9). The files are the
+# signed release assets, checked against SHA256SUMS and their provenance attestations; nothing is
+# rebuilt. A store whose credentials are missing is skipped. Safari stays manual.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to submit, for example v1.2.0
+        required: true
+      dry-run:
+        description: Check the credentials only, upload nothing
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  attestations: read
+
+concurrency:
+  group: stores-${{ github.event.release.tag_name || inputs.tag }}
+  cancel-in-progress: false
+
+jobs:
+  submit:
+    name: Submit the extensions
+    if: github.event_name == 'workflow_dispatch' || !github.event.release.prerelease
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: stores
+    env:
+      TAG: ${{ github.event.release.tag_name || inputs.tag }}
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry-run || false }}
+    steps:
+      - name: The tag is a release tag
+        run: |
+          [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "::error::$TAG is not a vX.Y.Z tag"; exit 1; }
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.TAG }}
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+      - name: Download and check the release files
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="${TAG#v}"
+          [[ "$(gh release view "$TAG" --json isDraft --jq .isDraft)" == false ]] || { echo "::error::$TAG is still a draft"; exit 1; }
+          mkdir -p "$RUNNER_TEMP/stores"
+          cd "$RUNNER_TEMP/stores"
+          files=("zimanyar-chrome-$version.zip" "zimanyar-firefox-$version.xpi" "zimanyar-firefox-$version-source.zip")
+          patterns=(--pattern SHA256SUMS)
+          for file in "${files[@]}"; do patterns+=(--pattern "$file"); done
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" "${patterns[@]}"
+          for file in "${files[@]}"; do
+            grep -qE "^[0-9a-f]{64} [ *]?$file\$" SHA256SUMS || { echo "::error::$file is not in SHA256SUMS"; exit 1; }
+            gh attestation verify "$file" --repo "$GITHUB_REPOSITORY" > /dev/null
+            echo "$file: attested"
+          done
+          sha256sum --check --strict --ignore-missing SHA256SUMS
+      - name: Submit for review
+        working-directory: apps/extension
+        env:
+          VERSION_DIR: ${{ runner.temp }}/stores
+          CHROME_API_VERSION: v2
+          CHROME_EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
+          CHROME_PUBLISHER_ID: ${{ secrets.CHROME_PUBLISHER_ID }}
+          CHROME_SERVICE_ACCOUNT_CLIENT_EMAIL: ${{ secrets.CHROME_SERVICE_ACCOUNT_CLIENT_EMAIL }}
+          CHROME_SERVICE_ACCOUNT_PRIVATE_KEY: ${{ secrets.CHROME_SERVICE_ACCOUNT_PRIVATE_KEY }}
+          FIREFOX_EXTENSION_ID: ${{ secrets.FIREFOX_EXTENSION_ID }}
+          FIREFOX_JWT_ISSUER: ${{ secrets.FIREFOX_JWT_ISSUER }}
+          FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
+        run: |
+          version="${TAG#v}"
+          args=()
+          if [[ -n "$CHROME_EXTENSION_ID" && -n "$CHROME_PUBLISHER_ID" && -n "$CHROME_SERVICE_ACCOUNT_CLIENT_EMAIL" && -n "$CHROME_SERVICE_ACCOUNT_PRIVATE_KEY" ]]; then
+            args+=(--chrome-zip "$VERSION_DIR/zimanyar-chrome-$version.zip")
+          else
+            echo "::warning::Chrome Web Store credentials are missing; skipping Chrome"
+          fi
+          if [[ -n "$FIREFOX_EXTENSION_ID" && -n "$FIREFOX_JWT_ISSUER" && -n "$FIREFOX_JWT_SECRET" ]]; then
+            args+=(--firefox-zip "$VERSION_DIR/zimanyar-firefox-$version.xpi" --firefox-sources-zip "$VERSION_DIR/zimanyar-firefox-$version-source.zip")
+          else
+            echo "::warning::AMO credentials are missing; skipping Firefox"
+          fi
+          [[ ${#args[@]} -gt 0 ]] || { echo "::error::no store credentials are set"; exit 1; }
+          if [[ "$DRY_RUN" == true ]]; then args+=(--dry-run); fi
+          pnpm exec wxt submit "${args[@]}"

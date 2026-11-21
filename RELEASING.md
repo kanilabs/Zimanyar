@@ -28,7 +28,11 @@ version in `packages/data/VERSION` is separate and changes only with the lexicon
 8. **Back into `develop`.** `develop` is protected, so open a pull request from `main` into
    `develop` (`gh pr create --base develop --head main`) and merge it with a merge commit when
    the checks are green. The merge into `main` has already deployed the website (`pages.yml`).
-9. **Stores.** Upload the Chrome zip and the Firefox xpi with its source zip to the stores by hand.
+9. **Stores.** Publishing the release starts `.github/workflows/stores.yml`, which checks the
+   Chrome zip, the Firefox xpi and the source zip against `SHA256SUMS` and their attestations and
+   submits them to the Chrome Web Store and AMO for review; a store without credentials is skipped
+   with a warning. Run it by hand from the Actions tab with a tag (dry run by default) to check the
+   credentials or to resubmit. Submit the Safari Xcode project from a Mac by hand.
 10. **Ubuntu PPA.** `make ppa V=X.Y.Z SERIES="noble ..." KEY=KEYID` builds signed source packages
     of `zimanyar` and `zimanyar-cli` for each Ubuntu release from the published release files,
     after checking them against `SHA256SUMS`, and prints the `dput` commands that upload them.
